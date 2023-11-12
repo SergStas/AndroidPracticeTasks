@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel: ViewModel() {
     companion object {
@@ -23,7 +24,7 @@ class MainViewModel: ViewModel() {
 
     fun doWorkOnVmScope() {
         viewModelScope.launch {
-            dispatcher.run {
+            withContext(dispatcher.value!!) {
                 doWork()
             }
         }

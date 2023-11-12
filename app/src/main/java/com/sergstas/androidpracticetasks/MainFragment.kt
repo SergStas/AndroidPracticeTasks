@@ -68,7 +68,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     }
 
     private fun runVmScope() {
-        runVmScope()
+        viewModel.doWorkOnVmScope()
         // Call viewModel's doWorkOnVmScope()
     }
 
