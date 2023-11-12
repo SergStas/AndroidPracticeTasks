@@ -3,9 +3,12 @@ package com.sergstas.androidpracticetasks
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
     companion object {
@@ -19,12 +22,17 @@ class MainViewModel: ViewModel() {
     private val _dispatcher = MutableLiveData<CoroutineDispatcher>(Dispatchers.Main)
 
     fun doWorkOnVmScope() {
-        // TODO:
+        viewModelScope.launch {
+            dispatcher.run {
+                doWork()
+            }
+        }
         // Call doWork() inside viewModelScope using dispatcher's context
     }
 
     fun switchDispatcher() {
-        // TODO:
+        if (_dispatcher.value == Dispatchers.Main) _dispatcher.value = Dispatchers.IO
+            else _dispatcher.value = Dispatchers.Main
         // switch value of '_dispatcher' between Main and IO
     }
 
