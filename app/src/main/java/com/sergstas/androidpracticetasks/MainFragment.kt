@@ -1,13 +1,19 @@
 package com.sergstas.androidpracticetasks
 
+import android.app.Notification
+import android.app.NotificationChannelGroup
 import android.os.Bundle
+import android.os.Message
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.sergstas.androidpracticetasks.databinding.FragmentMainBinding
 import com.sergstas.androidpracticetasks.util.colorFromId
 import com.sergstas.androidpracticetasks.util.toast
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainFragment: Fragment(R.layout.fragment_main) {
     private val binding by viewBinding(FragmentMainBinding::bind)
@@ -45,24 +51,28 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                 it?.run { requireContext().toast(this) }
             }
             dispatcher.observe(viewLifecycleOwner) {
-                // TODO:
+                binding.tvDispatcher.text = viewModel.dispatcher.value.toString()
                 // Display name of current dispatcher in field tvDispatcher
             }
         }
     }
 
     private fun runMainScope() {
-        // TODO:
+        MainScope().launch{
+            doWork()
+        }
         // Call doWork() function using MainScope
     }
 
     private fun runBlocking() {
-        // TODO:
+        kotlinx.coroutines.runBlocking {
+            doWork()
+        }
         // Call doWork() function using runBlocking
     }
 
     private fun runVmScope() {
-        // TODO:
+        viewModel.doWorkOnVmScope()
         // Call viewModel's doWorkOnVmScope()
     }
 
