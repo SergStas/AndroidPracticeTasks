@@ -1,11 +1,13 @@
 package com.sergstas.androidpracticetasks
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -13,7 +15,7 @@ import kotlinx.coroutines.withContext
 
 class MainViewModel: ViewModel() {
     companion object {
-        const val WORK_DURATION = 5000L
+        const val WORK_DURATION = 10000L
     }
 
     val msg: LiveData<String?> get() = _msg
@@ -24,9 +26,7 @@ class MainViewModel: ViewModel() {
 
     fun doWorkOnVmScope() {
         viewModelScope.launch {
-            withContext(dispatcher.value!!) {
                 doWork()
-            }
         }
         // Call doWork() inside viewModelScope using dispatcher's context
     }
@@ -39,7 +39,9 @@ class MainViewModel: ViewModel() {
 
     private suspend fun doWork() {
         _msg.value = "Work started"
-        delay(WORK_DURATION)
+        withContext(dispatcher.value!!){
+            delay(WORK_DURATION)
+        }
         _msg.value = "Work ended"
     }
 }
